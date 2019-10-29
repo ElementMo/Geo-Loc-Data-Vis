@@ -5,7 +5,7 @@
 
 ### Dependencies
 [Echarts](https://echarts.apache.org/en/index.html) for statics and data visualization  
-[MapboxGL EchartsLayer](https://github.com/lzxue/echartsLayer) for loading and displaying map  
+[MapboxGL EchartsLayer](https://github.com/lzxue/echartsLayer) and [MapboxGLJS](https://docs.mapbox.com/mapbox-gl-js/api/) for loading and displaying map  
 [Oboes.js](http://oboejs.com/) for loading JSON file  
 
 ### Introduction
