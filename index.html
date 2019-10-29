@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="container" style="width: 800px; height: 600px;"></div>
+    <!-- import libs -->
+    <script src="echarts.js"></script>
+    <script src="mapbox-gl-dev.js"></script>
+    <script src="EchartsLayer.js"></script>
+
+    <link href='mapbox-gl.css' rel='stylesheet' />
+
+    <script type="text/javascript">
+        var map = new mapboxgl.Map(
+            {
+                container: "container",
+                style: {
+                    "version": 8,
+                    "sources": {},
+                    "layers": []
+                },
+                center: [-77.045, 38.896],
+                zoom: 13
+            }
+        );
+
+        map.addControl(new mapboxgl.NavigationControl());
+        map.on(
+            "load",
+            function () {
+                map.addSource(
+                    "google.tile",
+                    { "type": "raster", "tiles": ['https://www.google.com/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'], "tileSize": 256 }
+                )
+                map.addLayer({
+                    "id": "google",
+                    "type": "raster",
+                    "source": "google.tile"
+                })
+
+                var echartslayer = new EchartsLayer(map);
+            }
+        );
+    </script>
+</body>
+
+</html>
