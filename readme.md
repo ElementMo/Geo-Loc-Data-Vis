@@ -19,6 +19,7 @@ We want the image to focus on the most active location at the beginning of the e
 ## Method
 The programming language we choose is **JavaScript**. Because there are many tools and libraries to help us focus on the development of the core logic. And the flexibility of this language is suitable for [Agile Development](https://en.wikipedia.org/wiki/Agile_software_development).  
 The process of our scrum developemt could be like this:
+
 | STAGE | TASK |
 |  :-:  |  :-: |
 | 1 | Display map on web browser; Read data from JSON file and extract location data |
