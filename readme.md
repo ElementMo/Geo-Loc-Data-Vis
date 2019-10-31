@@ -22,9 +22,9 @@ The process of our scrum developemt could be like this:
 
 | STAGE | TASK |
 |  :-:  |  :-: |
-| 1 | Display map on web browser; Read data from JSON file and extract location data |
+| 1 | Display map on web browser<br>Read data from JSON file and extract location data |
 | 2 | Draw loaction layer on top of map layer |
-| 3 | Display location data in specific period of time selected by user;<br> Classify data by activities;<br> Draw statistics of user activites |
+| 3 | Display location data in specific period of time selected by user<br> Classify data by activities<br> Draw statistics of user activites |
 | 4 | Add social media sharing intergration |
 
 ## Results and Findings
