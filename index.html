@@ -10,9 +10,10 @@
 <body style="background-color: black; width: 100%; height: 100%; margin: 0%; padding: 0%;">
     <div id="container" style="width: 100%; height: 100%;"></div>
     <!-- import libs -->
-    <script src="echarts.js"></script>
+    <script src="echarts-all-3.js"></script>
     <script src="mapbox-gl-dev.js"></script>
     <script src="EchartsLayer.js"></script>
+
 
     <!-- navigation buttons -->
     <link href='mapbox-gl.css' rel='stylesheet' />
@@ -26,7 +27,7 @@
                     "sources": {},
                     "layers": []
                 },
-                center: [-77.045, 38.896],
+                center: [-77.04579, 38.89695],
                 zoom: 13
             }
         );
@@ -34,8 +35,7 @@
         map.addControl(new mapboxgl.NavigationControl());
         map.on(
             "load",
-            function () 
-            {
+            function () {
                 map.addSource(
                     "google.tile",
                     { "type": "raster", "tiles": ['https://www.google.com/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'], "tileSize": 256 }
@@ -46,7 +46,30 @@
                     "source": "google.tile"
                 })
 
+                option = {
+                    GLMap: {},
+                    series: [
+                        {
+                            data: [
+                                [-77.04579, 38.89695],
+                                [-77.045, 38.896]
+                            ],
+                            type: "scatter",
+                            coordinateSystem: 'GLMap',
+                            symbolSize: 10,
+                            itemStyle: {
+                                normal: {
+                                    opacity: 0.6,
+                                    color: '#00ffff'
+                                }
+                            },
+                        }
+                    ]
+                }
+
                 var echartslayer = new EchartsLayer(map);
+                echartslayer.chart.setOption(option);
+
             }
         );
     </script>
