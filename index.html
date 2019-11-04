@@ -12,55 +12,29 @@
     <link type="text/css" href="./jquery-ui.min.css" rel="stylesheet">
 
     <!--import the js file with button-->
-    <script src="user_interface.js"></script>
+    <script src="user_interface.js"></script>    
+    <!-- navigation buttons -->
+    <link href='mapbox-gl.css' rel='stylesheet' />
+    <!-- Miscellaneous styling-->
+    <link href='misc.css' rel='stylesheet' />
 </head>
 
 <body style="background-color: black; width: 100%; height: 100%; margin: 0%; padding: 0%;">
+    <div class="upload-btn-wrapper">
+        <button class="btn">Upload</button>
+        <input type="file" id="JSONFile"  id="a_btn" accept=".json" style="opacity: 0"/>
+        <a href="http://www.google.com" id="a_btn">GOOGLE</a>
+    </div>
     <div id="container" style="width: 100%; height: 100%;"></div>
-    <!-- import libs -->
+
     <script src="echarts.js"></script>
     <script src="mapbox-gl-dev.js"></script>
     <script src="EchartsLayer.js"></script>
 
     <!-- navigation buttons -->
     <link href='mapbox-gl.css' rel='stylesheet' />
-
-    <script type="text/javascript">
-        var map = new mapboxgl.Map(
-            {
-                container: "container",
-                style: {
-                    "version": 8,
-                    "sources": {},
-                    "layers": []
-                },
-                center: [-77.045, 38.896],
-                zoom: 13
-            }
-        );
-
-        map.addControl(new mapboxgl.NavigationControl());
-        map.on(
-            "load",
-            function () 
-            {
-                map.addSource(
-                    "google.tile",
-                    { "type": "raster", "tiles": ['https://www.google.com/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}'], "tileSize": 256 }
-                )
-                map.addLayer({
-                    "id": "google",
-                    "type": "raster",
-                    "source": "google.tile"
-                })
-
-                var echartslayer = new EchartsLayer(map);
-            }
-        );
-    </script>
-
-    <!--a button to Google-->
-    <a href="http://www.google.com" id="a_btn">GOOGLE</a>
+    <script src="load-map.js"></script>
+    <script src="load-json.js"></script>
 </body>
 
 </html>
