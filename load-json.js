@@ -17,26 +17,25 @@ inputField.onchange = function () {
             }
             console.log(loadedJSON);
 
-            // create loc data array
-            var locationData = [];
-            for(var i=0; i<loadedJSON.locations.length; i++){
-                locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
+            try {
+                var locationData = [];
+                for (var i = 0; i < loadedJSON.locations.length; i++) {
+                    locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
+                }
+                newOption = {
+                    series: [
+                        {
+                            data: locationData
+                        }
+                    ]
+                }
+                echartslayer.chart.setOption(newOption);    // update option
+                echartslayer.chart.hideLoading();           // Hide Loading Animation
             }
-            // create new option
-            newOption = {
-                series: [
-                    {
-                        // data: [
-                        //     [-77.04579, 38.89695],
-                        //     [-77.045, 38.896]
-                        // ]
-                        data: locationData
-                    }
-                ]
+            catch (e) {
+                alert("File content error");
+                echartslayer.chart.hideLoading();
             }
-            // update option
-            echartslayer.chart.setOption(newOption);
-            echartslayer.chart.hideLoading();   // Hide Loading Animation
         }
         reader.readAsText(file, "UTF-8");
     }
