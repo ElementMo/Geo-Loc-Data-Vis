@@ -17,19 +17,32 @@ inputField.onchange = function () {
             }
             try {
                 var locationData = [];
+                var dateData = [];
+                var accuracyData = [];
 
                 for (var i = 0; i < loadedJSON.locations.length; i++) {
-                    locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
+                    if (loadedJSON.locations[i].accuracy > 5) {
+                        locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
+                        dateData.push(loadedJSON.locations[i].timestampMs);
+                        accuracyData.push(loadedJSON.locations[i].accuracy);
+                    }
                 }
                 newOption = {
+                    xAxis: {
+                        data: dateData
+                    },
                     series: [
                         {
+                            name: "mapdots",
                             data: locationData
+                        },
+                        {
+                            name: "accuracy",
+                            data: accuracyData
                         }
                     ]
                 }
                 echartslayer.chart.setOption(newOption);    // update option
-
 
                 echartslayer.chart.hideLoading();           // Hide Loading Animation
             }
