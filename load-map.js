@@ -5,52 +5,72 @@ mapboxgl.accessToken = "pk.eyJ1IjoiZWxlbWVudG1vIiwiYSI6ImNrM2Y4dm55MjAwNnczbG80M
 
 var map = new mapboxgl.Map({
     container: "container",
-    // style: {
-    //     "version": 8,
-    //     "sources": {},
-    //     "layers": []
-    // },
     style: "mapbox://styles/mapbox/dark-v10",
     center: [-77.045, 38.896],
     zoom: 13
 });
 
-map.addControl(new mapboxgl.NavigationControl());
+// map.addControl(new mapboxgl.NavigationControl());
+
 
 
 map.on(
     "load",
     function() {
-        // map.addSource(
-        //     "google.tile",{
-        //         "type": "raster",
-        //         "tiles": ["https://www.google.com/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"],
-        //         "tileSize": 256 
-        //     }
-        // )
-        // map.addLayer({
-        //     "id": "google",
-        //     "type": "raster",
-        //     "source": "google.tile"
-        // })
         option = {
             backgroundColor: '#10152077',
             GLMap: {},
+            xAxis: {
+                type: 'category',
+                data: []
+            },
+            yAxis: {
+                type: 'value'
+            },
+            grid: [{
+                show: true,
+                left: 0,
+                right: 0,
+                top: window.innerHeight - 200,
+                bottom: 0,
+                borderColor: 'transparent',
+                backgroundColor: '#404a5920',
+                z: 0
+            }],
             series: [{
-                type: "scatterGL",
-                progressive: 1e6,
-                coordinateSystem: 'GLMap',
-                symbolSize: 2,
-                blendMode: 'lighter',
-                large: true,
-                itemStyle: {
-                    normal: {
-                        color: '#20AADD'
+                    name: "mapdots",
+                    type: "scatterGL",
+                    progressive: 1e6,
+                    coordinateSystem: 'GLMap',
+                    polyline: true,
+                    symbolSize: 2,
+                    blendMode: 'lighter',
+                    large: true,
+                    itemStyle: {
+                        normal: {
+                            color: '#20AADD'
+                        },
+                        silent: true,
                     },
-                    silent: true,
+                    data: []
                 },
-                data: new Float32Array()
-            }]
+                {
+                    name: "accuracy",
+                    type: "line",
+                    smooth: true,
+                    symbol: 'none',
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgb(255, 158, 68)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(255, 70, 131)'
+                        }])
+                    },
+                    data: []
+                }
+            ]
         }
         echartslayer = new EchartsLayer(map);
         echartslayer.chart.setOption(option);
