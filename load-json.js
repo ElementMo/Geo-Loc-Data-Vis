@@ -15,10 +15,9 @@ inputField.onchange = function () {
             catch (e) {
                 alert("Unable to parse JSON");
             }
-            console.log(loadedJSON);
-
             try {
                 var locationData = [];
+
                 for (var i = 0; i < loadedJSON.locations.length; i++) {
                     locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
                 }
@@ -30,6 +29,8 @@ inputField.onchange = function () {
                     ]
                 }
                 echartslayer.chart.setOption(newOption);    // update option
+
+
                 echartslayer.chart.hideLoading();           // Hide Loading Animation
             }
             catch (e) {

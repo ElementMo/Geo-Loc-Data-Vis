@@ -7,6 +7,7 @@
 [Echarts](https://echarts.apache.org/en/index.html) for statistics and data visualization  
 [MapboxGL EchartsLayer](https://github.com/lzxue/echartsLayer) and [MapboxGLJS](https://docs.mapbox.com/mapbox-gl-js/api/) for loading and displaying the map  
 [Oboes.js](http://oboejs.com/) for loading JSON file  
+[Mapbox Styles](https://docs.mapbox.com/api/maps/#styles)
 
 ## Introduction
 This is a data visualization project, the user can explore their own geographical location history by uploading the data file collected by google. Users can explore their own data by selecting a specific period of time.
