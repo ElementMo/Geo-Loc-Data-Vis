@@ -39,6 +39,10 @@
     transition: all 0.2s;
 }
 
+.mapboxgl-ctrl-bottom-right {
+    display: none;
+}
+
 .bouncy {
     animation: bouncy 3s linear;
     animation-iteration-count: 1;
@@ -67,4 +71,55 @@
     100% {
         top: 0em;
     }
+}
+
+.dropbtn {
+    /* speak: none; */
+    -webkit-font-smoothing: antialiased;
+    width: 30px;
+    height: 30px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    /* padding: 5px; */
+    background-image: url("imgs/map_icon.svg");
+}
+
+.dropdown {
+    position: fixed;
+    right: 212px;
+    top: 10px;
+    z-index: 1;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.selected {
+    background-color: #ccc;
+}
+
+.show {
+    display: block;
 }
