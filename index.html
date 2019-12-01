@@ -11,12 +11,10 @@
 
     <!-- Button styling -->
     <link href='buttons.css' rel='stylesheet' />
-
     <!-- JQuery lib -->
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="jquery-ui.min.css">
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script src="jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="jquery-ui.min.css">
 </head>
 
 <body style="background-color: black; width: 100%; height: 100%; margin: 0%; padding: 0%;">
@@ -48,26 +46,10 @@
       </label>
         </div>
     </div>
-    <script></script>
+    </div>
 
     <div id="container" style="width: 100%; height: 93%;"></div>
-    <div id="slider-range"></div>
-    <script>
-        $(function() {
-            $("#slider-range").slider({
-                range: true,
-                min: 0,
-                max: 500,
-                values: [75, 300],
-                // slide: function (event, ui) {
-                //   $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                // }
-            });
-            // $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-            //     " - $" + $("#slider-range").slider("values", 1));
-        });
-    </script>
-
+    <div id="slider-range" style="width: 98%; margin: auto;"></div>
 
     <script src="echarts.min.js"></script>
     <script src="echarts-gl.min.js"></script>
