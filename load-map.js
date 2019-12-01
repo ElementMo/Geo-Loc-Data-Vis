@@ -19,6 +19,15 @@ map.on(
         option = {
             backgroundColor: '#10152077',
             GLMap: {},
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            // legend: {
+            //     orient: 'vertical',
+            //     x: 'left',
+            //     data: ['STILL', 'VEHICLE', 'USING PHONE', 'RUN', 'WALK', 'BIKE', 'METRO']
+            // },
             xAxis: {
                 type: 'category',
                 data: []
@@ -36,6 +45,7 @@ map.on(
                 backgroundColor: '#404a5920',
                 z: 0
             }],
+
             series: [{
                     name: "mapdots",
                     type: "scatterGL",
@@ -66,6 +76,23 @@ map.on(
                             offset: 1,
                             color: 'rgb(255, 70, 131)'
                         }])
+                    },
+                    data: []
+                },
+                {
+                    name: "Statistics",
+                    type: "pie",
+                    radius: ['8%', '16%'],
+                    center: ["16%", "18%"],
+                    avoidLabelOverlap: true,
+                    label: {
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '18',
+                                fontWeight: 'bold'
+                            }
+                        }
                     },
                     data: []
                 }
