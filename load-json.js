@@ -3,7 +3,7 @@ var rawData = [];
 
 inputField = document.querySelector("#JSONFile");
 inputField.onchange = function () {
-    echartslayer.chart.showLoading();   // Show Loading Animation
+    chart.showLoading();   // Show Loading Animation
 
     if ('files' in inputField && inputField.files.length == 1) {
         var file = inputField.files[0];
@@ -20,29 +20,61 @@ inputField.onchange = function () {
                 var locationData = [];
                 var dateData = [];
 
-
+                var initLocDict = {};
 
                 for (var i = 0; i < loadedJSON.locations.length; i++) {
-                    if (loadedJSON.locations[i].accuracy > 5 && loadedJSON.locations[i].activity != null) {
+                    if (loadedJSON.locations[i].activity != null) {
                         rawData.push(
                             [
                                 loadedJSON.locations[i].timestampMs * 1,
                                 [loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001],
-                                loadedJSON.locations[i].accuracy * 1,
                                 loadedJSON.locations[i].activity.length,
                                 loadedJSON.locations[i].activity
                             ]);
+                        var shortLongitude = loadedJSON.locations[i].longitudeE7.toString().slice(0, 6);
+                        var shortLatitude = loadedJSON.locations[i].latitudeE7.toString().slice(0, 5);
+                        var shortLoc = shortLongitude + shortLatitude;
+                        shortLoc.toString();
+                        if (initLocDict[shortLoc] != null) {
+                            initLocDict[shortLoc] += 1;
+                        } else if (initLocDict[shortLoc] == null) {
+                            initLocDict[shortLoc] = 0;
+                        }
                         locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
                         dateData.push(loadedJSON.locations[i].timestampMs);
+
                     }
                 }
 
+                var res = Object.keys(initLocDict).sort(function (a, b) { return initLocDict[a] - initLocDict[b]; });
+                var restoreLongitude = res[res.length - 1].slice(0, 6);
+                var restoreLatitude = res[res.length - 1].slice(6, res.length - 1);
+                console.log(restoreLongitude * 1 / 1000, restoreLatitude * 1 / 1000);
+
+                map.setCenter([restoreLongitude * 1 / 1000, restoreLatitude * 1 / 1000]);
+                map.setZoom(13);
+
+
+                // Activity
                 var tempActivityData = [];
                 for (var i = 0; i < rawData.length; i++) {
-                    tempActivityData.push(rawData[i][4]);
+                    tempActivityData.push(rawData[i][3]);
                 }
                 var activityData = [];
                 activityData = getActivity(tempActivityData);
+
+                // Active Amount
+                var tempDateData = [];
+                var tempActiveData = [];
+                var tempActiveVal = 0;
+                for (var i = 0; i < rawData.length; i++) {
+                    tempActiveVal += rawData[i][2];
+                    if(i%(parseInt(dateData.length/300)) == 0){
+                        tempDateData.push(rawData[i][0]);
+                        tempActiveData.push(tempActiveVal);
+                        tempActiveVal = 0;
+                    }
+                }
 
                 dateStart = 0;
                 dateEnd = dateData[dateData.length - 1] - dateData[0];
@@ -53,7 +85,7 @@ inputField.onchange = function () {
                         range: true,
                         min: dateStart,
                         max: dateEnd,
-                        values: [(dateEnd - dateStart) / 3, (dateEnd - dateStart) / 3 * 2],
+                        values: [0, (dateEnd - dateStart)],
                         slide: function (event, ui) {
                             selectStart = 0;
                             selectEnd = 0;
@@ -64,21 +96,26 @@ inputField.onchange = function () {
                                 selectEnd = ui.values[1] * 1 + dateData[0] * 1;
 
                                 var selectedLocData = [];
+                                var selectedDateData = [];
                                 var selectedActiveData = [];
                                 var selectedActivityData = [];
-                                var selectedDateData = [];
 
                                 var tempActivityData = [];
+                                var activeVal = 0;
+
                                 for (var i = 0; i < rawData.length; i++) {
                                     if (rawData[i][0] > selectStart && rawData[i][0] < selectEnd) {
-                                        selectedDateData.push(rawData[i][0]);
+                                        activeVal += rawData[i][2];
+                                        if (i%(parseInt(dateData.length/300)) == 0) {
+                                            selectedDateData.push(rawData[i][0]);
+                                            selectedActiveData.push(activeVal);
+                                            activeVal = 0;
+                                        }
                                         selectedLocData.push(rawData[i][1]);
-                                        selectedActiveData.push(rawData[i][3]);
-                                        tempActivityData.push(rawData[i][4]);
+                                        tempActivityData.push(rawData[i][3]);
                                     }
                                 }
-                                var activityData = [];
-                                activityData = getActivity(tempActivityData);
+                                selectedActivityData = getActivity(tempActivityData);
 
                                 newOption = {
                                     xAxis: {
@@ -95,11 +132,11 @@ inputField.onchange = function () {
                                         },
                                         {
                                             name: "Statistics",
-                                            data: activityData
+                                            data: selectedActivityData
                                         }
                                     ]
                                 }
-                                echartslayer.chart.setOption(newOption);
+                                chart.setOption(newOption);
                             }
                         }
                     });
@@ -108,31 +145,31 @@ inputField.onchange = function () {
 
                 newOption = {
                     xAxis: {
-                        data: dateData
+                        data: tempDateData
                     },
                     series: [
                         {
                             name: "mapdots",
                             data: locationData
                         },
-                        // {
-                        //     name: "accuracy",
-                        //     data: []
-                        // },
+                        {
+                            name: "accuracy",
+                            data: tempActiveData
+                        },
                         {
                             name: "Statistics",
                             data: activityData
                         }
                     ]
                 }
-                echartslayer.chart.setOption(newOption);    // update option
+                chart.setOption(newOption);    // update option
 
 
-                echartslayer.chart.hideLoading();           // Hide Loading Animation
+                chart.hideLoading();           // Hide Loading Animation
             }
             catch (e) {
                 alert("File content error");
-                echartslayer.chart.hideLoading();
+                chart.hideLoading();
             }
         }
         reader.readAsText(file, "UTF-8");
@@ -142,60 +179,6 @@ inputField.onchange = function () {
     }
 }
 
-// function getActivity() {
-//     var _activityData = [];
-//     var stillCount = 0;
-//     var vehicleCount = 0;
-//     var tiltingCount = 0;
-//     var runningCount = 0;
-//     var walkingCount = 0;
-//     var bikeCount = 0;
-//     var metroCount = 0;
-
-//     for (var i = 0; i < loadedJSON.locations.length; i++) {
-
-//         if (loadedJSON.locations[i].activity != null) {
-//             var maxVal = 0;
-//             var maxIndex = 0;
-//             var secondIndex = 0;
-//             for (var j = 0; j < loadedJSON.locations[i].activity[0].activity.length; j++) {
-//                 if (loadedJSON.locations[i].activity[0].activity[j].confidence * 1 > maxVal) {
-//                     maxVal = loadedJSON.locations[i].activity[0].activity[j].confidence * 1;
-//                     maxIndex = j;
-//                 }
-//             }
-//             var type = loadedJSON.locations[i].activity[0].activity[maxIndex].type;
-//             if (type == "STILL") {
-//                 stillCount++;
-//             } else if (type == "IN_VEHICLE" || type == "IN_CAR" || type == "IN_FOUR_WHEELER_VEHICLE" || type == "IN_ROAD_VEHICLE") {
-//                 vehicleCount++;
-//             } else if (type == "TILTING") {
-//                 tiltingCount++;
-//             } else if (type == "RUNNING") {
-//                 runningCount++;
-//             } else if (type == "WALKING" || type == "ON_FOOT") {
-//                 walkingCount++;
-//             } else if (type == "ON_BICYCLE") {
-//                 bikeCount++;
-//             } else if (type == "IN_RAIL_VEHICLE") {
-//                 metroCount++;
-//             }
-//         }
-
-
-//     }
-//     _activityData.push(
-//         { value: stillCount, name: "STILL" },
-//         { value: vehicleCount, name: "VEHICLE" },
-//         { value: tiltingCount, name: "USING PHONE" },
-//         { value: runningCount, name: "RUN" },
-//         { value: walkingCount, name: "WALK" },
-//         { value: bikeCount, name: "BIKE" },
-//         { value: metroCount, name: "METRO" },
-//     );
-
-//     return _activityData;
-// }
 
 function getActivity(activityArray) {
     var _activityData = [];
@@ -234,8 +217,6 @@ function getActivity(activityArray) {
         } else if (type == "IN_RAIL_VEHICLE") {
             metroCount++;
         }
-
-
 
     }
     _activityData.push(
