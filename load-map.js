@@ -29,12 +29,12 @@ var option = {
         silent: true,
         dimensions: ['lng', 'lat'],
         data: [
-            [-77.045, 38.896]
+            // [-77.045, 38.896]
         ]
     }]
 };
 
 chart.setOption(option);
 
-var mapbox = chart.getModel().getComponent('mapbox3D').getMapbox();
-console.log(mapbox);
+var map = chart.getModel().getComponent('mapbox3D').getMapbox();
+map.addControl(new mapboxgl.NavigationControl());

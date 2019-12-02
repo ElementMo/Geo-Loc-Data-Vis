@@ -2,7 +2,7 @@ var loadedJSON = null;
 
 inputField = document.querySelector("#JSONFile");
 inputField.onchange = function () {
-    myChart.showLoading();   // Show Loading Animation
+    chart.showLoading();   // Show Loading Animation
 
     if ('files' in inputField && inputField.files.length == 1) {
         var file = inputField.files[0];
@@ -29,16 +29,16 @@ inputField.onchange = function () {
                         }
                     ]
                 }
-                myChart.setOption(newOption);    // update option
+                chart.setOption(newOption);    // update option
 
                 
-                myChart.setOption(newOption);
+                chart.setOption(newOption);
 
-                myChart.hideLoading();           // Hide Loading Animation
+                chart.hideLoading();           // Hide Loading Animation
             }
             catch (e) {
                 alert("File content error");
-                myChart.hideLoading();
+                chart.hideLoading();
             }
         }
         reader.readAsText(file, "UTF-8");
