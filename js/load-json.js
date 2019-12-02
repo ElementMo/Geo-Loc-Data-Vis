@@ -2,18 +2,17 @@ var loadedJSON = null;
 var rawData = [];
 
 inputField = document.querySelector("#JSONFile");
-inputField.onchange = function () {
-    chart.showLoading();   // Show Loading Animation
-
+inputField.onchange = function() {
+    chart.showLoading(); // Show Loading Animation
+    stopBouncing();
     if ('files' in inputField && inputField.files.length == 1) {
         var file = inputField.files[0];
         var reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = function(e) {
             var contents = e.target.result;
             try {
                 loadedJSON = JSON.parse(contents.toString());
-            }
-            catch (e) {
+            } catch (e) {
                 alert("Unable to parse JSON");
             }
             try {
@@ -26,8 +25,7 @@ inputField.onchange = function () {
                     if (loadedJSON.locations[i].activity != null) {
                         rawData.push(
                             [
-                                loadedJSON.locations[i].timestampMs * 1,
-                                [loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001, 2],
+                                loadedJSON.locations[i].timestampMs * 1, [loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001, 2],
                                 loadedJSON.locations[i].activity.length,
                                 loadedJSON.locations[i].activity
                             ]);
@@ -46,7 +44,7 @@ inputField.onchange = function () {
                     }
                 }
 
-                var res = Object.keys(initLocDict).sort(function (a, b) { return initLocDict[a] - initLocDict[b]; });
+                var res = Object.keys(initLocDict).sort(function(a, b) { return initLocDict[a] - initLocDict[b]; });
                 var restoreLongitude = res[res.length - 1].slice(0, 6);
                 var restoreLatitude = res[res.length - 1].slice(6, res.length - 1);
                 console.log(restoreLongitude * 1 / 1000, restoreLatitude * 1 / 1000);
@@ -69,7 +67,7 @@ inputField.onchange = function () {
                 var tempActiveVal = 0;
                 for (var i = 0; i < rawData.length; i++) {
                     tempActiveVal += rawData[i][2];
-                    if(i%(parseInt(dateData.length/300)) == 0){
+                    if (i % (parseInt(dateData.length / 300)) == 0) {
                         tempDateData.push(rawData[i][0]);
                         tempActiveData.push(tempActiveVal);
                         tempActiveVal = 0;
@@ -80,13 +78,13 @@ inputField.onchange = function () {
                 dateEnd = dateData[dateData.length - 1] - dateData[0];
 
                 var timer = 0;
-                $(function () {
+                $(function() {
                     $("#slider-range").slider({
                         range: true,
                         min: dateStart,
                         max: dateEnd,
                         values: [0, (dateEnd - dateStart)],
-                        slide: function (event, ui) {
+                        slide: function(event, ui) {
                             selectStart = 0;
                             selectEnd = 0;
                             timer++;
@@ -106,7 +104,7 @@ inputField.onchange = function () {
                                 for (var i = 0; i < rawData.length; i++) {
                                     if (rawData[i][0] > selectStart && rawData[i][0] < selectEnd) {
                                         activeVal += rawData[i][2];
-                                        if (i%(parseInt(dateData.length/300)) == 0) {
+                                        if (i % (parseInt(dateData.length / 300)) == 0) {
                                             selectedDateData.push(rawData[i][0]);
                                             selectedActiveData.push(activeVal);
                                             activeVal = 0;
@@ -121,8 +119,7 @@ inputField.onchange = function () {
                                     xAxis: {
                                         data: selectedDateData
                                     },
-                                    series: [
-                                        {
+                                    series: [{
                                             name: "mapdots",
                                             data: selectedLocData
                                         },
@@ -147,8 +144,7 @@ inputField.onchange = function () {
                     xAxis: {
                         data: tempDateData
                     },
-                    series: [
-                        {
+                    series: [{
                             name: "mapdots",
                             data: locationData
                         },
@@ -162,19 +158,17 @@ inputField.onchange = function () {
                         }
                     ]
                 }
-                chart.setOption(newOption);    // update option
+                chart.setOption(newOption); // update option
 
 
-                chart.hideLoading();           // Hide Loading Animation
-            }
-            catch (e) {
+                chart.hideLoading(); // Hide Loading Animation
+            } catch (e) {
                 alert("File content error");
                 chart.hideLoading();
             }
         }
         reader.readAsText(file, "UTF-8");
-    }
-    else {
+    } else {
         alert("Failed to load file");
     }
 }
@@ -219,15 +213,14 @@ function getActivity(activityArray) {
         }
 
     }
-    _activityData.push(
-        { value: stillCount, name: "STILL" },
-        { value: vehicleCount, name: "VEHICLE" },
-        { value: tiltingCount, name: "USING PHONE" },
-        { value: runningCount, name: "RUN" },
-        { value: walkingCount, name: "WALK" },
-        { value: bikeCount, name: "BIKE" },
-        { value: metroCount, name: "METRO" },
-    );
+    _activityData.push({ value: stillCount, name: "STILL" }, { value: vehicleCount, name: "VEHICLE" }, { value: tiltingCount, name: "USING PHONE" }, { value: runningCount, name: "RUN" }, { value: walkingCount, name: "WALK" }, { value: bikeCount, name: "BIKE" }, { value: metroCount, name: "METRO" }, );
 
     return _activityData;
+}
+
+function stopBouncing() {
+    let bouncybois = document.getElementsByClassName("bouncy")
+    while (bouncybois[0]) {
+        bouncybois[0].classList.remove('bouncy');
+    }
 }
