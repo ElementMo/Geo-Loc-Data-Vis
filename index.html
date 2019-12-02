@@ -6,45 +6,27 @@
     <title>Geo Loc Data Vis</title>
     <link rel="icon" href="imgs/favicon.ico" type="image/x-icon">
 
-    <!-- Mapbox styling -->
-    <link href='mapbox-gl.css' rel='stylesheet' />
-
     <!-- Button styling -->
     <link href='buttons.css' rel='stylesheet' />
 
-    <!-- JQuery lib -->
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <style></style>
+    <link href='mapbox-gl.css' rel='stylesheet' />
+
 
 </head>
 
 <body style="background-color: black; width: 100%; height: 100%; margin: 0%; padding: 0%;">
-    <div class="dropdown">
-        <div id="myDropdown" class="dropdown-content">
-            <a href="#" id="streets-v11" onclick="changeMap(this)">streets</a>
-            <a href="#" id="outdoors-v11" onclick="changeMap(this)">outdoors</a>
-            <a href="#" id="light-v10" onclick="changeMap(this)">light</a>
-            <a href="#" id="dark-v10" class="selected" onclick="changeMap(this)">dark</a>
-            <a href="#" id="satellite-v9" onclick="changeMap(this)">satellite</a>
-            <a href="#" id="satellite-streets-v11" onclick="changeMap(this)">satellite-streets</a>
-            <a href="#" id="navigation-preview-day-v4" onclick="changeMap(this)">navigation-preview-day</a>
-            <a href="#" id="navigation-preview-night-v4" onclick="changeMap(this)">navigation-preview-night</a>
-            <a href="#" id="navigation-guidance-day-v4" onclick="changeMap(this)">navigation-guidance-day</a>
-            <a href="#" id="navigation-guidance-night-v4" onclick="changeMap(this)">navigation-guidance-night</a>
-        </div>
-    </div>
 
     <div class="btn-align">
         <div class="bouncy" style="display: inline-block">
             <label class="button1" onclick="window.open('https://takeout.google.com/settings/takeout')">
-        Obtain JSON
-      </label>
+                Obtain JSON
+            </label>
         </div>
         <div class="bouncy" style="display: inline-block; animation-delay:0.08s">
             <label class="button1">
-        Upload JSON
-        <input type="file" id="JSONFile" accept=".json" style="display: none" />
-      </label>
+                Upload JSON
+                <input type="file" id="JSONFile" accept=".json" style="display: none" />
+            </label>
         </div>
     </div>
     <script></script>
@@ -53,11 +35,11 @@
 
     <script src="echarts.min.js"></script>
     <script src="echarts-gl.min.js"></script>
+    <script src="world.js"></script>
     <script src='mapbox-gl.js'></script>
-    <script src="EchartsLayer.js"></script>
     <script src="load-map.js"></script>
     <script src="load-json.js"></script>
-    <script src="load-dropdown.js"></script>
+
 </body>
 
 </html>
