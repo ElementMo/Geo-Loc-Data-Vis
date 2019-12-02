@@ -3,14 +3,19 @@ var chart = echarts.init(document.getElementById('container'));
 // My token (not public token)
 mapboxgl.accessToken = "pk.eyJ1IjoiZWxlbWVudG1vIiwiYSI6ImNrM2Y4dm55MjAwNnczbG80M2hrZ3Q3dzEifQ._AmTHcuM701F6x6iBmt_yA";
 
+var dotSize = 2;
+if (window.devicePixelRatio > 1) {
+    dotSize = 4;
+}
+
 var option = {
     mapbox3D: {
         style: "mapbox://styles/mapbox/dark-v10",
         center: [-77.045, 38.896],
         row: 1,
-        zoom: 13
+        pitch: 1,
+        zoom: 13,
     },
-    backgroundColor: '#10152077',
     tooltip: {
         trigger: 'item',
         formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -31,10 +36,11 @@ var option = {
         data: []
     },
     yAxis: {
+        scale: '100%',
         type: 'value',
         splitLine: {
             show: false
-        }
+        },
     },
     grid: [{
         show: true,
@@ -43,8 +49,6 @@ var option = {
         top: window.innerHeight - 200,
         bottom: 0,
         borderColor: 'transparent',
-        backgroundColor: '#404a5900',
-        z: 0
     }],
 
     series: [{
@@ -52,7 +56,7 @@ var option = {
             type: "scatter3D",
             progressive: 1e6,
             coordinateSystem: 'mapbox3D',
-            symbolSize: 2,
+            symbolSize: dotSize,
             blendMode: 'lighter',
             large: true,
             postEffect: {
@@ -60,13 +64,15 @@ var option = {
             },
             itemStyle: {
                 normal: {
-                    color: '#20AADD'
+                    color: '#30AAEE' //20AADD
                 },
                 silent: true,
             },
             dimensions: ['lng', 'lat'],
-            data: [],
-            z: 99
+            data: [
+                [-77.045, 38.896, 1]
+            ],
+            z: 9
         },
         {
             name: "accuracy",

@@ -27,7 +27,7 @@ inputField.onchange = function () {
                         rawData.push(
                             [
                                 loadedJSON.locations[i].timestampMs * 1,
-                                [loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001],
+                                [loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001, 2],
                                 loadedJSON.locations[i].activity.length,
                                 loadedJSON.locations[i].activity
                             ]);
@@ -40,7 +40,7 @@ inputField.onchange = function () {
                         } else if (initLocDict[shortLoc] == null) {
                             initLocDict[shortLoc] = 0;
                         }
-                        locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001]);
+                        locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001, 2]);
                         dateData.push(loadedJSON.locations[i].timestampMs);
 
                     }
