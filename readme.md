@@ -1,7 +1,7 @@
 # CS6221 Project
 ## Geo Location Data Vis
 
-![img](imgs/snapshot.jpg)
+![img](imgs/snapshot.jpg?)
 
 ## Dependencies
 [Echarts](https://echarts.apache.org/en/index.html) for statistics and data visualization  

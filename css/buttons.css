@@ -1,10 +1,10 @@
 .btn-align {
-    bottom: 10px;
-    border: 3px solid #00000000;
     position: fixed;
-    bottom: 50px;
-    right: 0;
+    transform: translate(-50%);
+    bottom: 20px;
+    left: 50%;
     z-index: 1;
+    border: 3px solid #00000000;
     overflow: visible;
     display: inline-block;
 }
@@ -44,8 +44,7 @@
 }
 
 .bouncy {
-    animation: bouncy 3s linear;
-    animation-iteration-count: 1;
+    animation: bouncy 12s linear infinite;
     position: relative;
 }
 
@@ -53,19 +52,19 @@
     0% {
         top: 0em
     }
-    40% {
+    15% {
         top: 0em
     }
-    43% {
-        top: -0.9em
+    16% {
+        top: -1.0em
     }
-    46% {
+    17% {
         top: 0em
     }
-    48% {
+    18% {
         top: -0.4em
     }
-    50% {
+    19% {
         top: 0em
     }
     100% {
