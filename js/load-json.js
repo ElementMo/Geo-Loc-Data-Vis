@@ -82,7 +82,7 @@ inputField.onchange = function() {
                         range: true,
                         min: dateStart,
                         max: dateEnd,
-                        values: [0, (dateEnd - dateStart)],
+                        values: [(dateEnd - dateStart)/100, (dateEnd - dateStart)-(dateEnd - dateStart)/100],
                         slide: function(event, ui) {
                             selectStart = 0;
                             selectEnd = 0;

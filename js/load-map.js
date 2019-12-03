@@ -1,6 +1,7 @@
 var chart = echarts.init(document.getElementById('container'));
 var ui_color = 'rgb(48, 170, 238)'
 var ui_color_dark = 'rgb(4, 17, 23, 50)'
+var ui_color_light = 'rgb(100, 200, 255)'
 
 // My token (not public token)
 mapboxgl.accessToken = "pk.eyJ1IjoiZWxlbWVudG1vIiwiYSI6ImNrM2Y4dm55MjAwNnczbG80M2hrZ3Q3dzEifQ._AmTHcuM701F6x6iBmt_yA";
@@ -23,16 +24,16 @@ var option = {
         formatter: "{a} <br/>{b}: {c} ({d}%)"
     },
     legend: {
-        inactiveColor: '#0000',
+        inactiveColor: '#ccc',
         tooltip: {
             show: true
         },
         orient: 'horizontal',
-        x: '5px',
-        y: '5px',
+        x: '8px',
+        y: '8px',
         textStyle: {
             fontSize: 0.1,
-            color: '#0000'
+            color: 'ui_color_light'
         },
         data: ['STILL', 'VEHICLE', 'USING PHONE', 'RUN', 'WALK', 'BIKE', 'METRO']
     },
@@ -100,7 +101,7 @@ var option = {
             name: "Statistics",
             type: "pie",
             radius: ['8%', '16%'],
-            center: ["180px", "120px"],
+            center: ["190px", "160px"],
             avoidLabelOverlap: true,
             itemStyle: {
                 normal: {
