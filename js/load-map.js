@@ -13,10 +13,10 @@ if (window.devicePixelRatio > 1) {
 var option = {
     mapbox3D: {
         style: "mapbox://styles/mapbox/dark-v10",
-        center: [-77.045, 38.896],
+        center: [-95, 38],
         row: 1,
         pitch: 1,
-        zoom: 13,
+        zoom: 3.9,
     },
     tooltip: {
         trigger: 'item',
@@ -74,9 +74,7 @@ var option = {
                 silent: true,
             },
             dimensions: ['lng', 'lat'],
-            data: [
-                [-77.045, 38.896, 1]
-            ],
+            data: [],
             z: 9
         },
         {
@@ -127,4 +125,10 @@ chart.setOption(option);
 
 var map = chart.getModel().getComponent('mapbox3D').getMapbox();
 map.addControl(new mapboxgl.NavigationControl());
-j
+
+window.addEventListener("mousewheel", function(event) {
+    event.preventDefault();
+}, { passive: false });
+window.addEventListener("DOMMouseScroll", function(event) {
+    event.preventDefault();
+}, { passive: false });

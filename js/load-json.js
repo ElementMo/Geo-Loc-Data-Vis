@@ -40,7 +40,6 @@ inputField.onchange = function() {
                         }
                         locationData.push([loadedJSON.locations[i].longitudeE7 * 0.0000001, loadedJSON.locations[i].latitudeE7 * 0.0000001, 2]);
                         dateData.push(loadedJSON.locations[i].timestampMs);
-
                     }
                 }
 
