@@ -15,8 +15,7 @@ var option = {
     mapbox3D: {
         style: "mapbox://styles/mapbox/dark-v10",
         center: [-95, 38],
-        row: 1,
-        pitch: 1,
+        pitch: 2,
         zoom: 3.9,
     },
     tooltip: {
@@ -76,7 +75,7 @@ var option = {
             },
             dimensions: ['lng', 'lat'],
             data: [],
-            z: 9
+            z: 99
         },
         {
             name: "accuracy",

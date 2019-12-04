@@ -1,14 +1,14 @@
 var loadedJSON = null;
-var rawData = [];
+
 
 inputField = document.querySelector("#JSONFile");
-inputField.onchange = function() {
+inputField.onchange = function () {
     chart.showLoading(); // Show Loading Animation
     stopBouncing();
     if ('files' in inputField && inputField.files.length == 1) {
         var file = inputField.files[0];
         var reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             var contents = e.target.result;
             try {
                 loadedJSON = JSON.parse(contents.toString());
@@ -18,6 +18,7 @@ inputField.onchange = function() {
             try {
                 var locationData = [];
                 var dateData = [];
+                var rawData = [];
 
                 var initLocDict = {};
 
@@ -29,10 +30,9 @@ inputField.onchange = function() {
                                 loadedJSON.locations[i].activity.length,
                                 loadedJSON.locations[i].activity
                             ]);
-                        var shortLongitude = loadedJSON.locations[i].longitudeE7.toString().slice(0, 6);
-                        var shortLatitude = loadedJSON.locations[i].latitudeE7.toString().slice(0, 5);
-                        var shortLoc = shortLongitude + shortLatitude;
-                        shortLoc.toString();
+                        var shortLongitude = parseInt(loadedJSON.locations[i].longitudeE7 / 10000);
+                        var shortLatitude = parseInt(loadedJSON.locations[i].latitudeE7 / 10000);
+                        var shortLoc = shortLongitude.toString() + "," + shortLatitude.toString();
                         if (initLocDict[shortLoc] != null) {
                             initLocDict[shortLoc] += 1;
                         } else if (initLocDict[shortLoc] == null) {
@@ -42,10 +42,11 @@ inputField.onchange = function() {
                         dateData.push(loadedJSON.locations[i].timestampMs);
                     }
                 }
-
-                var res = Object.keys(initLocDict).sort(function(a, b) { return initLocDict[a] - initLocDict[b]; });
-                var restoreLongitude = res[res.length - 1].slice(0, 6);
-                var restoreLatitude = res[res.length - 1].slice(6, res.length - 1);
+                // Auto Zoom to Most Active Area
+                var res = Object.keys(initLocDict).sort(function (a, b) { return initLocDict[a] - initLocDict[b]; });
+                var restoreBoth = res[res.length - 1].split(",");
+                var restoreLongitude = restoreBoth[0];
+                var restoreLatitude = restoreBoth[1];
                 console.log(restoreLongitude * 1 / 1000, restoreLatitude * 1 / 1000);
 
                 map.setCenter([restoreLongitude * 1 / 1000, restoreLatitude * 1 / 1000]);
@@ -77,13 +78,13 @@ inputField.onchange = function() {
                 dateEnd = dateData[dateData.length - 1] - dateData[0];
 
                 var timer = 0;
-                $(function() {
+                $(function () {
                     $("#slider-range").slider({
                         range: true,
                         min: dateStart,
                         max: dateEnd,
-                        values: [(dateEnd - dateStart)/100, (dateEnd - dateStart)-(dateEnd - dateStart)/100],
-                        slide: function(event, ui) {
+                        values: [(dateEnd - dateStart) / 100, (dateEnd - dateStart) - (dateEnd - dateStart) / 100],
+                        slide: function (event, ui) {
                             selectStart = 0;
                             selectEnd = 0;
                             timer++;
@@ -119,17 +120,17 @@ inputField.onchange = function() {
                                         data: selectedDateData
                                     },
                                     series: [{
-                                            name: "mapdots",
-                                            data: selectedLocData
-                                        },
-                                        {
-                                            name: "accuracy",
-                                            data: selectedActiveData
-                                        },
-                                        {
-                                            name: "Statistics",
-                                            data: selectedActivityData
-                                        }
+                                        name: "mapdots",
+                                        data: selectedLocData
+                                    },
+                                    {
+                                        name: "accuracy",
+                                        data: selectedActiveData
+                                    },
+                                    {
+                                        name: "Statistics",
+                                        data: selectedActivityData
+                                    }
                                     ]
                                 }
                                 chart.setOption(newOption);
@@ -144,17 +145,17 @@ inputField.onchange = function() {
                         data: tempDateData
                     },
                     series: [{
-                            name: "mapdots",
-                            data: locationData
-                        },
-                        {
-                            name: "accuracy",
-                            data: tempActiveData
-                        },
-                        {
-                            name: "Statistics",
-                            data: activityData
-                        }
+                        name: "mapdots",
+                        data: locationData
+                    },
+                    {
+                        name: "accuracy",
+                        data: tempActiveData
+                    },
+                    {
+                        name: "Statistics",
+                        data: activityData
+                    }
                     ]
                 }
                 chart.setOption(newOption); // update option
@@ -212,7 +213,7 @@ function getActivity(activityArray) {
         }
 
     }
-    _activityData.push({ value: stillCount, name: "STILL" }, { value: vehicleCount, name: "VEHICLE" }, { value: tiltingCount, name: "USING PHONE" }, { value: runningCount, name: "RUN" }, { value: walkingCount, name: "WALK" }, { value: bikeCount, name: "BIKE" }, { value: metroCount, name: "METRO" }, );
+    _activityData.push({ value: stillCount, name: "STILL" }, { value: vehicleCount, name: "VEHICLE" }, { value: tiltingCount, name: "USING PHONE" }, { value: runningCount, name: "RUN" }, { value: walkingCount, name: "WALK" }, { value: bikeCount, name: "BIKE" }, { value: metroCount, name: "METRO" });
 
     return _activityData;
 }
