@@ -2,13 +2,13 @@ var loadedJSON = null;
 
 
 inputField = document.querySelector("#JSONFile");
-inputField.onchange = function () {
+inputField.onchange = function() {
     chart.showLoading(); // Show Loading Animation
     stopBouncing();
     if ('files' in inputField && inputField.files.length == 1) {
         var file = inputField.files[0];
         var reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = function(e) {
             var contents = e.target.result;
             try {
                 loadedJSON = JSON.parse(contents.toString());
@@ -43,7 +43,7 @@ inputField.onchange = function () {
                     }
                 }
                 // Auto Zoom to Most Active Area
-                var res = Object.keys(initLocDict).sort(function (a, b) { return initLocDict[a] - initLocDict[b]; });
+                var res = Object.keys(initLocDict).sort(function(a, b) { return initLocDict[a] - initLocDict[b]; });
                 var restoreBoth = res[res.length - 1].split(",");
                 var restoreLongitude = restoreBoth[0];
                 var restoreLatitude = restoreBoth[1];
@@ -78,20 +78,20 @@ inputField.onchange = function () {
                 dateEnd = dateData[dateData.length - 1] - dateData[0];
 
                 var timer = 0;
-                $(function () {
+                $(function() {
                     $("#slider-range").slider({
                         range: true,
                         min: dateStart,
                         max: dateEnd,
                         values: [(dateEnd - dateStart) / 100, (dateEnd - dateStart) - (dateEnd - dateStart) / 100],
-                        slide: function (event, ui) {
-                            selectStart = 0;
-                            selectEnd = 0;
+                        slide: function(event, ui) {
+                            var selectStart = 0;
+                            var selectEnd = 0;
+                            selectStart = ui.values[0] * 1 + dateData[0] * 1;
+                            selectEnd = ui.values[1] * 1 + dateData[0] * 1;
                             timer++;
                             if (timer > 10) {
                                 timer = 0;
-                                selectStart = ui.values[0] * 1 + dateData[0] * 1;
-                                selectEnd = ui.values[1] * 1 + dateData[0] * 1;
 
                                 var selectedLocData = [];
                                 var selectedDateData = [];
@@ -120,24 +120,63 @@ inputField.onchange = function () {
                                         data: selectedDateData
                                     },
                                     series: [{
-                                        name: "mapdots",
-                                        data: selectedLocData
-                                    },
-                                    {
-                                        name: "accuracy",
-                                        data: selectedActiveData
-                                    },
-                                    {
-                                        name: "Statistics",
-                                        data: selectedActivityData
-                                    }
+                                            name: "mapdots",
+                                            data: selectedLocData
+                                        },
+                                        {
+                                            name: "accuracy",
+                                            data: selectedActiveData
+                                        },
+                                        {
+                                            name: "Statistics",
+                                            data: selectedActivityData
+                                        }
                                     ]
                                 }
                                 chart.setOption(newOption);
                             }
+                            let elems = document.getElementsByClassName("tooltiptext");
+                            elems[0].textContent = new Date(selectStart);
+                            elems[1].textContent = new Date(selectEnd);
                         }
                     });
+                    let elems = document.getElementsByClassName("ui-slider-handle");
+                    span1 = document.createElement("span");
+                    span1.className = "tooltiptext";
+                    span1.id = "tooltip_1";
+                    span1.textContent = new Date(dateStart);
+                    span2 = document.createElement("span");
+                    span2.className = "tooltiptext";
+                    span2.id = "tooltip_2";
+                    span2.textContent = new Date(dateEnd);
+
+                    elems[0].className += " tooltip";
+                    elems[1].className += " tooltip";
+                    elems[0].appendChild(span1);
+                    elems[1].appendChild(span2);
+                    $(".tooltip").hover(function() {
+                        $(".button1").css("background-color", "rgba(0, 0, 0, 0.1)");
+                        $(".button1").css("color", "rgba(100, 100, 100, 0)");
+
+                        let winwidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+                        tooltiptext = $(this).children(".tooltiptext")
+                        if (tooltiptext.offset().left < 0) {
+
+                            console.log("left");
+                        } else if (tooltiptext.offset().left + tooltiptext.width() > winwidth) {
+
+                            console.log("right");
+                        } else {
+                            console.log(tooltiptext.offset().left);
+                            console.log("good");
+                        }
+                        console.log();
+                    }, function() {
+                        $(".button1").css("background-color", "rgba(238, 238, 238, .5)");
+                        $(".button1").css("color", "#111111");
+                    })
                 });
+
 
 
                 newOption = {
@@ -145,17 +184,17 @@ inputField.onchange = function () {
                         data: tempDateData
                     },
                     series: [{
-                        name: "mapdots",
-                        data: locationData
-                    },
-                    {
-                        name: "accuracy",
-                        data: tempActiveData
-                    },
-                    {
-                        name: "Statistics",
-                        data: activityData
-                    }
+                            name: "mapdots",
+                            data: locationData
+                        },
+                        {
+                            name: "accuracy",
+                            data: tempActiveData
+                        },
+                        {
+                            name: "Statistics",
+                            data: activityData
+                        }
                     ]
                 }
                 chart.setOption(newOption); // update option
