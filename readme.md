@@ -1,4 +1,3 @@
-# CS6221 Project
 ## Geo Location Data Vis
 
 ![img](imgs/snapshot.jpg?)
@@ -10,7 +9,7 @@
 [Mapbox Styles](https://docs.mapbox.com/api/maps/#styles)
 
 ## Introduction
-This is a data visualization project, the user can explore their own geographical location history by uploading the data file collected by google. Users can explore their own data by selecting a specific period of time.
+This is a data visualization project, uses can explore their own geographical location history by uploading the data file collected by google. Users can explore their own data by selecting a specific period of time.
 The purpose of this project is to make people aware of data collection behavior. And we also want to give everyone the capability to view the history of themselves.
 
 ## Algorithm
